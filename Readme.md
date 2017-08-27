@@ -1,7 +1,7 @@
 # Личный проект «Дела в Порядке» 
 
 * Студент: [mars](https://up.htmlacademy.ru/php/2/user/151240).
-* Наставник: `Неизвестно`.
+* Наставник: [Денис Байдаров](https://htmlacademy.ru/profile/4er).
 
 ---
 
