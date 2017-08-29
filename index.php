@@ -133,7 +133,7 @@ $days_until_deadline = null;
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                                <input class="checkbox__input visually-hidden" type="checkbox" check§ed>
                                 <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
                             </label>
                         </td>
