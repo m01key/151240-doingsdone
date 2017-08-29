@@ -128,7 +128,7 @@ $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
                 </div>
 
                 <table class="tasks">
-                    <?php if ($show_complete_tasks == 1) { ?>
+                    <?php if ($show_complete_tasks == 1) : ?>
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
@@ -141,7 +141,7 @@ $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
                         <td class="task__controls">
                         </td>
                     </tr>
-                    <?php } ?>
+                    <?php endif; ?>
 
                     <tr class="tasks__item task <?php if ($days_until_deadline <= 0) print('task--important') ?>">
                         <td class="task__select">
