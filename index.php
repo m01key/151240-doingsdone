@@ -10,10 +10,10 @@ $task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка вр
 $current_ts = strtotime('now midnight'); // текущая метка времени
 
 // запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = null;
+$date_deadline = date("d.m.Y", $task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = null;
+$days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,12 +128,12 @@ $days_until_deadline = null;
                 </div>
 
                 <table class="tasks">
-                    <?php if ($show_complete_tasks == 1) : ?>
+                    <?php if ($show_complete_tasks == 1) { ?>
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" check§ed>
+                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
                                 <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
                             </label>
                         </td>
@@ -141,9 +141,9 @@ $days_until_deadline = null;
                         <td class="task__controls">
                         </td>
                     </tr>
-                    <?php endif; ?>
+                    <?php } ?>
 
-                    <tr class="tasks__item task">
+                    <tr class="tasks__item task <?php if ($days_until_deadline <= 0) print('task--important') ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox">
@@ -152,6 +152,7 @@ $days_until_deadline = null;
                         </td>
 
                         <td class="task__date">
+                          <?php print($date_deadline) ?>
                             <!--выведите здесь дату выполнения задачи-->
                         </td>
 
