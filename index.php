@@ -21,40 +21,40 @@ $projectArr = ['Все','Входящие','Учеба','Работа','Дома
 // простой массив с ассоциативным массивом внутри
 $taskArr = [
   [
-    'Задача' => 'Собеседование в IT компании',
-    'Дата выполнения' => '01.06.2018',
-    'Категория' => 'Работа',
-    'Выполнен' => 'Нет'
+    'task' => 'Собеседование в IT компании',
+    'doneDate' => '01.06.2018',
+    'category' => 'Работа',
+    'done' => 'Нет'
   ],
   [
-    'Задача' => 'Выполнить тестовое задание',
-    'Дата выполнения' => '25.05.2018',
-    'Категория' => 'Работа',
-    'Выполнен' => 'Нет'
+    'task' => 'Выполнить тестовое задание',
+    'doneDate' => '25.05.2018',
+    'category' => 'Работа',
+    'done' => 'Нет'
   ],
   [
-    'Задача' => 'Сделать задание первого раздела',
-    'Дата выполнения' => '21.04.2018',
-    'Категория' => 'Учеба',
-    'Выполнен' => 'Да'
+    'task' => 'Сделать задание первого раздела',
+    'doneDate' => '21.04.2018',
+    'category' => 'Учеба',
+    'done' => 'Да'
   ],
   [
-    'Задача' => 'Встреча с другом',
-    'Дата выполнения' => '22.04.2018',
-    'Категория' => 'Входящие',
-    'Выполнен' => 'Нет'
+    'task' => 'Встреча с другом',
+    'doneDate' => '22.04.2018',
+    'category' => 'Входящие',
+    'done' => 'Нет'
   ],
   [
-    'Задача' => 'Купить корм для кота',
-    'Дата выполнения' => 'Нет',
-    'Категория' => 'Домашние дела',
-    'Выполнен' => 'Нет'
+    'task' => 'Купить корм для кота',
+    'doneDate' => 'Нет',
+    'category' => 'Домашние дела',
+    'done' => 'Нет'
   ],
   [
-    'Задача' => 'Заказать пиццу',
-    'Дата выполнения' => 'Нет',
-    'Категория' => 'Домашние дела',
-    'Выполнен' => 'Нет'
+    'task' => 'Заказать пиццу',
+    'doneDate' => 'Нет',
+    'category' => 'Домашние дела',
+    'done' => 'Нет'
   ]
 ]
 
@@ -103,21 +103,19 @@ $taskArr = [
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                       <?php
-                        $activeIndex = 1;
-                        foreach ($projectArr as $value) {
+                        foreach ($projectArr as $index => $value) :
                       ?>
                         <li class="main-navigation__list-item
                         <?php
-                          while ($activeIndex == 1) {
+                          if ($index == 0) {
                             print('main-navigation__list-item--active');
-                            $activeIndex++;
                           }
                         ?>
                         ">
                             <a class="main-navigation__list-item-link" href="#"><?php print($value); ?></a>
                             <span class="main-navigation__list-item-count">24</span>
                         </li>
-                      <?php } ?>
+                      <?php endforeach; ?>
                         <!-- <li class="main-navigation__list-item main-navigation__list-item--active">
                             <a class="main-navigation__list-item-link" href="#">Учеба</a>
                             <span class="main-navigation__list-item-count">12</span>
@@ -201,13 +199,13 @@ $taskArr = [
                     <?php foreach ($taskArr as $key => $value) : ?>
                     <tr class="tasks__item task <?php
                       if ($days_until_deadline <= 0) print('task--important');
-                      if ($value['Выполнен'] == 'Да') print(' task--completed');
+                      if ($value['done'] == 'Да') print(' task--completed');
                     ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox"
-                                <?php if ($value['Выполнен'] == 'Да') print('checked'); ?>>
-                                <span class="checkbox__text"><?php print($value['Задача']); ?></span>
+                                <?php if ($value['done'] == 'Да') print('checked'); ?>>
+                                <span class="checkbox__text"><?php print($value['task']); ?></span>
                             </label>
                         </td>
 
