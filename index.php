@@ -1,4 +1,18 @@
 <?php
+
+function taskCount($taskAll, $projectName) {
+  $taskAmount = 0;
+  if ($projectName == 'Все') {
+    return count($taskAll);
+  }
+  foreach ($taskAll as $key => $value) {
+    if ($value['category'] == $projectName) {
+      $taskAmount++;
+    }
+  }
+  return $taskAmount;
+}
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
@@ -113,7 +127,7 @@ $taskArr = [
                         ?>
                         ">
                             <a class="main-navigation__list-item-link" href="#"><?php print($value); ?></a>
-                            <span class="main-navigation__list-item-count">24</span>
+                            <span class="main-navigation__list-item-count"><?php print(taskCount($taskArr, $value)); ?></span>
                         </li>
                       <?php endforeach; ?>
                         <!-- <li class="main-navigation__list-item main-navigation__list-item--active">
