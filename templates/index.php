@@ -32,13 +32,13 @@
 
   <label class="checkbox">
     <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-    <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" <?php if ($array['show_complete_tasks'] == 1) print('checked') ?> >
+    <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" <?php if ($show_complete_tasks == 1) print('checked') ?> >
     <span class="checkbox__text">Показывать выполненные</span>
   </label>
 </div>
 
 <table class="tasks">
-  <?php if ($array['show_complete_tasks'] == 1) : ?>
+  <?php if ($show_complete_tasks == 1) : ?>
   <!--показывать следующий тег <tr/>, если переменная равна единице-->
   <tr class="tasks__item task task--completed">
     <td class="task__select">
@@ -53,9 +53,9 @@
   </tr>
   <?php endif; ?>
 
-  <?php foreach ($array['tasks'] as $key => $value) : ?>
+  <?php foreach ($tasks as $key => $value) : ?>
   <tr class="tasks__item task <?php
-    if ($array['days_until_deadline'] <= 0) print('task--important');
+    if ($days_until_deadline <= 0) print('task--important');
     if ($value['done'] == 'Да') print(' task--completed');
   ?>">
     <td class="task__select">
@@ -67,7 +67,7 @@
     </td>
 
     <td class="task__date">
-      <?php print($array['date_deadline']) ?>
+      <?php print($date_deadline) ?>
       <!--выведите здесь дату выполнения задачи-->
     </td>
 

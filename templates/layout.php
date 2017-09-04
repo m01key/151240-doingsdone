@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title><?= $array['title'] ?></title>
+  <title><?= $title ?></title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -42,7 +42,7 @@
         <nav class="main-navigation">
           <ul class="main-navigation__list">
             <?php
-            foreach ($array['projects'] as $index => $value) :
+            foreach ($projects as $index => $value) :
             ?>
             <li class="main-navigation__list-item
             <?php
@@ -52,7 +52,7 @@
             ?>
             ">
               <a class="main-navigation__list-item-link" href="#"><?php print($value); ?></a>
-              <span class="main-navigation__list-item-count"><?php print(taskCount($array['tasks'], $value)); ?></span>
+              <span class="main-navigation__list-item-count"><?php print(taskCount($tasks, $value)); ?></span>
             </li>
             <?php endforeach; ?>
           </ul>
@@ -62,7 +62,7 @@
       </section>
 
       <main class="content__main">
-        <?= $array['content'] ?>
+        <?= $content ?>
       </main>
     </div>
   </div>
