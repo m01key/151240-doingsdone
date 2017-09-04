@@ -53,7 +53,14 @@
   </tr>
   <?php endif; ?>
 
-  <?php foreach ($array['tasks'] as $key => $value) : ?>
+  <?php
+
+  foreach ($array['tasks'] as $key => $value) :
+
+    if (!(isset($_GET['project'])) || ($value['category'] ==  $array['projects'][$_GET['project']])) {
+
+?>
+
   <tr class="tasks__item task <?php
     if ($array['days_until_deadline'] <= 0) print('task--important');
     if ($value['done'] == 'Да') print(' task--completed');
@@ -85,5 +92,19 @@
       </ul>
     </td>
   </tr>
-  <?php endforeach; ?>
+
+<?php
+
+
+    } else {
+        header("HTTP/1.0 404 Not Found");
+        print('ошибка 404');
+    }
+
+endforeach;
+
+
+?>
+
+
 </table>
