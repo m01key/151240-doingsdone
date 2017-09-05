@@ -43,6 +43,7 @@
           <ul class="main-navigation__list">
             <?php
             foreach ($projects as $index => $value) :
+
             ?>
             <li class="main-navigation__list-item
             <?php
@@ -51,8 +52,11 @@
               }
             ?>
             ">
-              <a class="main-navigation__list-item-link" href="#"><?php print($value); ?></a>
-              <span class="main-navigation__list-item-count"><?php print(taskCount($tasks, $value)); ?></span>
+              <a class="main-navigation__list-item-link" href="<?php if ($index != 0) print("?project=$index"); else print("/"); ?>">
+              <?php print($value); ?>
+
+              </a>
+              <span class="main-navigation__list-item-count"><?php print(taskCount($array['tasks'], $value)); ?></span>
             </li>
             <?php endforeach; ?>
           </ul>

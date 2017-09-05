@@ -63,7 +63,7 @@ $taskArr = [
 ];
 
 
-$pageContent = includeTemplate('templates/index.php', ['tasks' => $taskArr, 'date_deadline' => $date_deadline, 'show_complete_tasks' => $show_complete_tasks, 'days_until_deadline' => $days_until_deadline]);
+$pageContent = includeTemplate('templates/index.php', ['tasks' => $taskArr, 'date_deadline' => $date_deadline, 'show_complete_tasks' => $show_complete_tasks, 'days_until_deadline' => $days_until_deadline, 'projects' => $projectArr]);
 
 $layoutContent = includeTemplate('templates/layout.php', ['content' => $pageContent, 'title' => 'Дела в порядке!', 'projects' => $projectArr, 'tasks' => $taskArr]);
 
