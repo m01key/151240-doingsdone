@@ -56,7 +56,7 @@
               <?php print($value); ?>
 
               </a>
-              <span class="main-navigation__list-item-count"><?php print(taskCount($array['tasks'], $value)); ?></span>
+              <span class="main-navigation__list-item-count"><?php print(taskCount($tasks, $value)); ?></span>
             </li>
             <?php endforeach; ?>
           </ul>

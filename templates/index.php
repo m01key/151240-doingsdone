@@ -53,11 +53,11 @@
   </tr>
   <?php endif; ?>
 
-  <?php
+<?php
 
    foreach ($tasks as $key => $value) :
 
-    if (!(isset($_GET['project'])) || ($value['category'] ==  $array['projects'][$_GET['project']])) {
+    if ((isset($_GET['project'])) && ($value['category'] ==  $projects[$_GET['project']])) {
 
 ?>
 
@@ -97,7 +97,8 @@
 
 
     } else {
-        header("HTTP/1.0 404 Not Found");
+        // header("HTTP/1.0 404 Not Found");
+        http_response_code(404);
         print('ошибка 404');
     }
 
