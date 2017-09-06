@@ -38,30 +38,15 @@
 </div>
 
 <table class="tasks">
-  <?php if ($show_complete_tasks == 1) : ?>
-  <!--показывать следующий тег <tr/>, если переменная равна единице-->
-  <tr class="tasks__item task task--completed">
-    <td class="task__select">
-      <label class="checkbox task__checkbox">
-        <input class="checkbox__input visually-hidden" type="checkbox" checked>
-        <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-      </label>
-    </td>
-    <td class="task__date">10.04.2017</td>
-    <td class="task__controls">
-    </td>
-  </tr>
-  <?php endif; ?>
 
 <?php
 
-   foreach ($tasks as $key => $value) :
-
-    if ((isset($_GET['project'])) && ($value['category'] ==  $projects[$_GET['project']])) {
+    foreach ($tasks as $key => $value) :
 
 ?>
 
-  <tr class="tasks__item task <?php
+  <tr class="tasks__item task
+  <?php
     if ($days_until_deadline <= 0) print('task--important');
     if ($value['done'] == 'Да') print(' task--completed');
   ?>">
@@ -95,17 +80,8 @@
 
 <?php
 
-
-    } else {
-        // header("HTTP/1.0 404 Not Found");
-        http_response_code(404);
-        print('ошибка 404');
-    }
-
-endforeach;
-
+    endforeach;
 
 ?>
-
 
 </table>

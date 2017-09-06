@@ -2,7 +2,6 @@
 
 require_once 'functions.php';
 
-
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
@@ -63,10 +62,76 @@ $taskArr = [
 ];
 
 
-$pageContent = includeTemplate('templates/index.php', ['tasks' => $taskArr, 'date_deadline' => $date_deadline, 'show_complete_tasks' => $show_complete_tasks, 'days_until_deadline' => $days_until_deadline, 'projects' => $projectArr]);
+$taskArrNew = [];
+$projectArrLenght = count($projectArr);
 
-$layoutContent = includeTemplate('templates/layout.php', ['content' => $pageContent, 'title' => 'Дела в порядке!', 'projects' => $projectArr, 'tasks' => $taskArr]);
+// print_r($projectArrLenght);
+
+if (isset($_GET['project'])) {
+
+  if ($_GET['project'] < $projectArrLenght) {
+
+    foreach ($projectArr as $key => $value) {
+      if ($_GET['project'] == $key) {
+        $category = $value;
+        break;
+      }
+    }
+    foreach ($taskArr as $key => $value) {
+      if ($value['category'] == $category) {
+        $taskArrNew[] = $value;
+      }
+    }
+
+  } else {
+      http_response_code(404);
+      print('<p>Ошибка 404</p>');
+      exit();
+  }
+
+} else {
+    $taskArrNew = $taskArr;
+}
+
+if ($show_complete_tasks == 0) {
+  foreach ($taskArrNew as $key => $value) {
+    if ($value['done'] == 'Да') {
+      unset($taskArrNew[$key]);
+    }
+  }
+}
+
+
+$pageContentArr = [
+  'tasks' => $taskArrNew,
+  'date_deadline' => $date_deadline,
+  'show_complete_tasks' => $show_complete_tasks,
+  'days_until_deadline' => $days_until_deadline,
+  'projects' => $projectArr
+];
+
+$pageContent = includeTemplate('templates/index.php', $pageContentArr);
+
+
+$layoutContentArr = [
+  'content' => $pageContent,
+  'title' => 'Дела в порядке!',
+  'projects' => $projectArr,
+  'tasks' => $taskArr
+];
+
+$layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);
+
+
+
 
 print($layoutContent);
 
 ?>
+
+
+
+
+
+
+
