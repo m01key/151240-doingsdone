@@ -47,7 +47,7 @@
             ?>
             <li class="main-navigation__list-item
             <?php
-              if ($index == 0) {
+              if ($_GET['project'] == $index) {
               print('main-navigation__list-item--active');
               }
             ?>
