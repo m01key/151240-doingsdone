@@ -4,8 +4,10 @@ function includeTemplate($file, $array) {
 
   if (is_file($file)) {
     ob_start();
+
     extract($array);
     require_once $file;
+
     $html = ob_get_clean();
     return $html;
   }
