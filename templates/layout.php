@@ -44,7 +44,7 @@
             <?php foreach ($projects as $index => $value): ?>
             <li class="main-navigation__list-item
             <?php
-              if ($get == $index) {
+              if ($projectGet == $index) {
               print('main-navigation__list-item--active');
               }
             ?>
