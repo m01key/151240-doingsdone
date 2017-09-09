@@ -61,22 +61,17 @@ $taskArr = [
   ]
 ];
 
-
 $taskArrNew = [];
 $projectArrLenght = count($projectArr);
+$get = $_GET['project'];
 
-// print_r($projectArrLenght);
 
-if (isset($_GET['project'])) {
+if (isset($get)) {
 
-  if ($_GET['project'] < $projectArrLenght) {
+  if (isset($projectArr[$get])) {
 
-    foreach ($projectArr as $key => $value) {
-      if ($_GET['project'] == $key) {
-        $category = $value;
-        break;
-      }
-    }
+    $category = $projectArr[$get];
+
     foreach ($taskArr as $key => $value) {
       if ($value['category'] == $category) {
         $taskArrNew[] = $value;
@@ -117,7 +112,8 @@ $layoutContentArr = [
   'content' => $pageContent,
   'title' => 'Дела в порядке!',
   'projects' => $projectArr,
-  'tasks' => $taskArr
+  'tasks' => $taskArr,
+  'get' => $get
 ];
 
 $layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);

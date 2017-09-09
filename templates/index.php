@@ -39,11 +39,7 @@
 
 <table class="tasks">
 
-<?php
-
-    foreach ($tasks as $key => $value) :
-
-?>
+<?php foreach ($tasks as $key => $value): ?>
 
   <tr class="tasks__item task
   <?php
@@ -54,12 +50,12 @@
       <label class="checkbox task__checkbox">
         <input class="checkbox__input visually-hidden" type="checkbox"
         <?php if ($value['done'] == 'Да') print('checked'); ?>>
-        <span class="checkbox__text"><?php print($value['task']); ?></span>
+        <span class="checkbox__text"><?= $value['task'] ?></span>
       </label>
     </td>
 
     <td class="task__date">
-      <?php print($date_deadline) ?>
+      <?= $date_deadline ?>
       <!--выведите здесь дату выполнения задачи-->
     </td>
 
@@ -78,10 +74,6 @@
     </td>
   </tr>
 
-<?php
-
-    endforeach;
-
-?>
+<?php endforeach; ?>
 
 </table>
