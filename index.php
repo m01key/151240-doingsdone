@@ -63,7 +63,7 @@ $taskArr = [
 
 $taskArrNew = [];
 $projectArrLenght = count($projectArr);
-$projectGet = isset($_GET['project']) ? $_GET['project'] : false;
+$projectGet = isset($_GET['project']) ? $_GET['project'] : NULL;
 
 
 if (isset($projectGet)) {
