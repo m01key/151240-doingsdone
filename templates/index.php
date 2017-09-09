@@ -38,23 +38,11 @@
 </div>
 
 <table class="tasks">
-  <?php if ($show_complete_tasks == 1) : ?>
-  <!--показывать следующий тег <tr/>, если переменная равна единице-->
-  <tr class="tasks__item task task--completed">
-    <td class="task__select">
-      <label class="checkbox task__checkbox">
-        <input class="checkbox__input visually-hidden" type="checkbox" checked>
-        <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-      </label>
-    </td>
-    <td class="task__date">10.04.2017</td>
-    <td class="task__controls">
-    </td>
-  </tr>
-  <?php endif; ?>
 
-  <?php foreach ($tasks as $key => $value) : ?>
-  <tr class="tasks__item task <?php
+<?php foreach ($tasks as $key => $value): ?>
+
+  <tr class="tasks__item task
+  <?php
     if ($days_until_deadline <= 0) print('task--important');
     if ($value['done'] == 'Да') print(' task--completed');
   ?>">
@@ -62,12 +50,12 @@
       <label class="checkbox task__checkbox">
         <input class="checkbox__input visually-hidden" type="checkbox"
         <?php if ($value['done'] == 'Да') print('checked'); ?>>
-        <span class="checkbox__text"><?php print($value['task']); ?></span>
+        <span class="checkbox__text"><?= $value['task'] ?></span>
       </label>
     </td>
 
     <td class="task__date">
-      <?php print($date_deadline) ?>
+      <?= $date_deadline ?>
       <!--выведите здесь дату выполнения задачи-->
     </td>
 
@@ -85,5 +73,7 @@
       </ul>
     </td>
   </tr>
-  <?php endforeach; ?>
+
+<?php endforeach; ?>
+
 </table>

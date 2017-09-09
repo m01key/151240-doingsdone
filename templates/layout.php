@@ -41,18 +41,18 @@
 
         <nav class="main-navigation">
           <ul class="main-navigation__list">
-            <?php
-            foreach ($projects as $index => $value) :
-            ?>
+            <?php foreach ($projects as $index => $value): ?>
             <li class="main-navigation__list-item
             <?php
-              if ($index == 0) {
+              if ($projectGet == $index) {
               print('main-navigation__list-item--active');
               }
             ?>
             ">
-              <a class="main-navigation__list-item-link" href="#"><?php print($value); ?></a>
-              <span class="main-navigation__list-item-count"><?php print(taskCount($tasks, $value)); ?></span>
+              <a class="main-navigation__list-item-link" href="<?php if ($index != 0) print("?project=$index"); else print("/"); ?>">
+              <?= $value ?>
+              </a>
+              <span class="main-navigation__list-item-count"><?= taskCount($tasks, $value) ?></span>
             </li>
             <?php endforeach; ?>
           </ul>
