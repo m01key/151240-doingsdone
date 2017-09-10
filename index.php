@@ -105,6 +105,7 @@ $taskArrNew = [];
 $projectGet = isset($_GET['project']) ? $_GET['project'] : NULL;
 $addGet = isset($_GET['add']) ? $_GET['add'] : NULL;
 
+
 // проверяем параметр запроса -проджект-
 if (isset($projectGet)) {
   if (isset($projectArr[$projectGet])) {
