@@ -4,42 +4,6 @@
 require_once 'functions.php';
 
 
-// $task = isset($_POST['name']) ? $_POST['name'] : '';
-// $project = isset($_POST['project']) ? $_POST['project'] : '';
-// $date = isset($_POST['date']) ? $_POST['date'] : '';
-// $file = isset($_POST['file']) ? $_POST['file'] : '';
-// print($date);
-// print($task);
-// работаем с формой
-// if ($_SERVER[REQUEST_METHOD] == 'POST') {
-
-  // $required = ['name', 'project', 'date'];
-  // $errors = [];
-  // print('привет');
-  // foreach ($_POST as $key => $value) {
-    // if (in_array($key, $required) && $value == '') {
-      // $errors[] = $key;
-    // }
-    // if (($key == 'name') && ($value == '')) {
-      // print('task');
-      // $i = 1;
-    // }
-  // }
-
-
-  // if (strtotime($date)) {
-  //   $errors[] = $key;
-  // }
-// print('1111');
-// }
-
-
-
-// $task = isset($_POST['name']) ? $_POST['name'] : '';
-
-
-
-
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
@@ -182,7 +146,7 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
   }
 
   if (!count($errors)) {
-    var_dump($_FILES['preview']);
+    // var_dump($_FILES['preview']);
     $taskNew = [
     'task' =>  $task,
     'doneDate' => $date,
