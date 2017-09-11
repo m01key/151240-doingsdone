@@ -104,50 +104,40 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
   $task = isset($_POST['name']) ? $_POST['name'] : '';
   $project = isset($_POST['project']) ? $_POST['project'] : '';
   $date = isset($_POST['date']) ? $_POST['date'] : '';
-  // $file = isset($_POST['file']) ? $_POST['file'] : '';
-
-  // var_dump($project);
+  $file = isset($_POST['file']) ? $_POST['file'] : '';
 
   $required = ['name', 'project', 'date'];
   $rules = ['date'];
-  $errors = [];
+  $errors = 0;
+  $errorClass = 'form__input--error';
+  $errorEmpty = '<span class="form__error">Заполните это поле</span>';
+  $errorFormat = '<span class="form__error">Неверный формат даты</span>';
 
-  foreach ($_POST as $key => $value) {
-
-    if (in_array($key, $required) && $value == '') {
-      $errors[] = $key;
-      if ($key == 'name') {
-        $errorTask = 'form__input--error';
-        $errorTextTask = '<span class="form__error">Заполните это поле</span>';
-      }
-      if ($key == 'date') {
-        $errorDate = 'form__input--error';
-        $errorTextDate = '<span class="form__error">Заполните это поле</span>';
-      }
-      if ($key == 'project') {
-        $errorProject = 'form__input--error';
-        $errorTextProject = '<span class="form__error">Заполните это поле</span>';
-      }
-    }
-    if (in_array($key, $rules) && $value !== '') {
-      $dateTs =  strtotime($value);
-      if (!$dateTs) {
-        $errors[] = $key;
-        $errorDate = 'form__input--error';
-        $errorTextDate = '<span class="form__error">Неверный формат даты</span>';
-      }
-    }
-
+  if ($task == '') {
+    $errorTask = $errorClass;
+    $errorTextTask = $errorEmpty;
+    $errors = 1;
   }
-
-  if (isset($_FILES['preview'])) {
+  if ($project == '') {
+    $errorProject = $errorClass;
+    $errorTextProject = $errorEmpty;
+    $errors = 1;
+  }
+  if ($date == '') {
+    $errorDate = $errorClass;
+    $errorTextDate = $errorEmpty;
+    $errors = 1;
+  } else if (!strtotime($date)) {
+    $errorDate = $errorClass;
+    $errorTextDate = $errorFormat;
+    $errors = 1;
+  }
+  if ($file) {
     $file_name = $_FILES['preview']['name'];
     $file_path = __DIR__.'/';
     move_uploaded_file($_FILES['preview']['tmp_name'], $file_path.$file_name);
   }
-
-  if (!count($errors)) {
-    // var_dump($_FILES['preview']);
+  if (!$errors) {
     $taskNew = [
     'task' =>  $task,
     'doneDate' => $date,
@@ -177,7 +167,7 @@ $formContentArr = [
 // var_dump($errors);
 
 // проверям есть ли ошибки в форме или параметр запроса -эдд-
-if (count($errors) || isset($addGet)) {
+if (($errors) || isset($addGet)) {
   $overlay = 'class="overlay"';
   $formContent = includeTemplate('templates/form.php', $formContentArr);
 }

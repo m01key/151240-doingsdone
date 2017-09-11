@@ -19,19 +19,15 @@
 
       <select class="form__input form__input--select <?= $errorProject ?>" name="project" id="project">
 
-      <?php
-        foreach ($projectArr as $key => $value) :
-          if ($key !== 0) :
-      ?>
+      <?php foreach ($projectArr as $key => $value) : ?>
+      <?php  if ($key !== 0) : ?>
 
         <option value="<?= $key ?>" <?php if ($project == $key) print('selected') ?>>
             <?= $value ?>
         </option>
 
-      <?php
-          endif;
-        endforeach;
-      ?>
+      <?php endif; ?>
+      <?php endforeach; ?>
 
       </select>
 
