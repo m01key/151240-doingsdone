@@ -43,7 +43,7 @@
 
   <tr class="tasks__item task
   <?php
-    if ($days_until_deadline <= 0) print('task--important');
+    if ($value['deadline'] == 1) print('task--important');
     if ($value['done'] == 'Да') print(' task--completed');
   ?>">
     <td class="task__select">
@@ -55,7 +55,7 @@
     </td>
 
     <td class="task__date">
-      <?= $date_deadline ?>
+      <?= $value['doneDate'] ?>
       <!--выведите здесь дату выполнения задачи-->
     </td>
 

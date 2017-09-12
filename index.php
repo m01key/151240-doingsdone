@@ -10,15 +10,15 @@ $show_complete_tasks = rand(0, 1);
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
-$days = rand(-3, 3);
-$task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка времени даты выполнения задачи
-$current_ts = strtotime('now midnight'); // текущая метка времени
+// $days = rand(-3, 3);
+// $task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка времени даты выполнения задачи
+// $current_ts = strtotime('now midnight'); // текущая метка времени
 
-// запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = date("d.m.Y", $task_deadline_ts);
+// // запишите сюда дату выполнения задачи в формате дд.мм.гггг
+// $date_deadline = date("d.m.Y", $task_deadline_ts);
 
-// в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
+// // в эту переменную запишите кол-во дней до даты задачи
+// $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
 
 // простой массив проектов
 $projectArr = ['Все','Входящие','Учеба','Работа','Домашние дела','Авто'];
@@ -51,17 +51,28 @@ $taskArr = [
   ],
   [
     'task' => 'Купить корм для кота',
-    'doneDate' => 'Нет',
+    'doneDate' => '09.09.2017',
     'category' => 'Домашние дела',
     'done' => 'Нет'
   ],
   [
     'task' => 'Заказать пиццу',
-    'doneDate' => 'Нет',
+    'doneDate' => '13.09.2017',
     'category' => 'Домашние дела',
     'done' => 'Нет'
   ]
 ];
+
+foreach ($taskArr as $key => $value) {
+    $task_deadline_ts = strtotime($value['doneDate']);
+    $current_ts = strtotime('now midnight');
+    $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
+    if ($days_until_deadline <= 1) {
+        $deadlineTrue = ['deadline' => true];
+        $taskArr[$key] = array_merge($value, $deadlineTrue);
+    }
+}
+
 
 // новый массив задач
 $taskArrNew = [];
@@ -77,6 +88,7 @@ if (isset($projectGet)) {
     foreach ($taskArr as $key => $value) {
       if ($value['category'] == $category) {
         $taskArrNew[] = $value;
+
       }
     }
   } else {
@@ -138,14 +150,31 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
     move_uploaded_file($_FILES['preview']['tmp_name'], $file_path.$file_name);
   }
   if (!$errors) {
+
     $taskNew = [
     'task' =>  $task,
     'doneDate' => $date,
     'category' => $projectArr[$project],
-    'done' => 'Нет'
+    'done' => 'Нет',
     ];
+
+    $task_deadline_ts = strtotime($date);
+    $current_ts = strtotime('now midnight');
+    $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
+    if ($days_until_deadline <= 1) {
+        $deadlineTrue = ['deadline' => true];
+        $taskNew = array_merge($taskNew, $deadlineTrue);
+    }
+
+    // print_r($taskNew);
+
     array_unshift($taskArrNew, $taskNew);
     array_unshift($taskArr, $taskNew);
+
+    // foreach ($taskArr as $key => $value) {
+
+    // }
+
   }
 
 }
@@ -164,14 +193,12 @@ $formContentArr = [
   'projectArr' => $projectArr
 ];
 
-// var_dump($errors);
 
 // проверям есть ли ошибки в форме или параметр запроса -эдд-
 if (($errors) || isset($addGet)) {
   $overlay = 'class="overlay"';
   $formContent = includeTemplate('templates/form.php', $formContentArr);
 }
-
 
 
 // массив данных для главной страницы
