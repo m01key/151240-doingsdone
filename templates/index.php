@@ -43,7 +43,7 @@
 
   <tr class="tasks__item task
   <?php
-    if ($value['deadline'] == 1) print('task--important');
+    if ($value['deadline']) print('task--important');
     if ($value['done'] == 'Да') print(' task--completed');
   ?>">
     <td class="task__select">
