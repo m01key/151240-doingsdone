@@ -69,12 +69,6 @@ function check_deadline($date) {
 }
 
 
-foreach ($taskArr as $key => $value) {
-
-    $taskArr[$key] = check_deadline($value);
-
-}
-
 
 // новый массив задач
 $taskArrNew = [];
@@ -101,6 +95,7 @@ if (isset($projectGet)) {
     $taskArrNew = $taskArr;
 }
 
+
 // показываем или нет выполненные задачи
 if ($show_complete_tasks == 0) {
   foreach ($taskArrNew as $key => $value) {
@@ -110,6 +105,10 @@ if ($show_complete_tasks == 0) {
   }
 }
 
+
+foreach ($taskArrNew as $key => $value) {
+    $taskArrNew[$key] = check_deadline($value);
+}
 
 
 // обрабатываем форму
@@ -163,8 +162,6 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
 
     $taskNew = check_deadline($taskNew);
     array_unshift($taskArrNew, $taskNew);
-    array_unshift($taskArr, $taskNew);
-
 
   }
 
