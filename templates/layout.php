@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body><!--class="overlay"-->
+<body <?= $overlay ?>><!--class="overlay"-->
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
@@ -19,7 +18,7 @@
       </a>
 
       <div class="main-header__side">
-        <a class="main-header__side-item button button--plus" href="#">Добавить задачу</a>
+        <a class="main-header__side-item button button--plus" href="?add">Добавить задачу</a>
 
         <div class="main-header__side-item user-menu">
           <div class="user-menu__image">
@@ -76,7 +75,7 @@
       <p>Веб-приложение для удобного ведения списка дел.</p>
     </div>
 
-    <a class="main-footer__button button button--plus">Добавить задачу</a>
+    <a href="?add" class="main-footer__button button button--plus">Добавить задачу</a>
 
     <div class="main-footer__social social">
       <span class="visually-hidden">Мы в соцсетях:</span>
@@ -150,6 +149,8 @@
     </div>
   </form>
 </div>
+
+<?= $formContent ?>
 
 <script type="text/javascript" src="js/script.js"></script>
 </body>
