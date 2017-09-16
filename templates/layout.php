@@ -1,3 +1,5 @@
+<?php if ($guestContent == false) : ?>
+
 <html lang="en">
 
 <head>
@@ -26,9 +28,9 @@
           </div>
 
           <div class="user-menu__data">
-            <p>Константин</p>
+            <p><?= $usersName ?></p>
 
-            <a href="#">Выйти</a>
+            <a href="logout.php">Выйти</a>
           </div>
         </div>
       </div>
@@ -155,3 +157,9 @@
 <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
+
+<?php else : ?>
+
+<?= $guestContent ?>
+
+<?php endif; ?>

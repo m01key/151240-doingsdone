@@ -1,6 +1,8 @@
 <?php
+session_start();
 
 // подключаем функции
+require_once 'userdata.php';
 require_once 'functions.php';
 
 
@@ -75,6 +77,7 @@ $taskArrNew = [];
 // параметры запроса
 $projectGet = isset($_GET['project']) ? $_GET['project'] : NULL;
 $addGet = isset($_GET['add']) ? $_GET['add'] : NULL;
+$loginGet = isset($_GET['login']) ? $_GET['login'] : NULL;
 
 
 // проверяем параметр запроса -проджект-
@@ -96,6 +99,7 @@ if (isset($projectGet)) {
 }
 
 
+
 // показываем или нет выполненные задачи
 if ($show_complete_tasks == 0) {
   foreach ($taskArrNew as $key => $value) {
@@ -110,6 +114,9 @@ foreach ($taskArrNew as $key => $value) {
     $taskArrNew[$key] = check_deadline($value);
 }
 
+if (isset($_SESSION["user"])) {
+
+$usersName = $_SESSION["user"]['name'];
 
 // обрабатываем форму
 if ($_SERVER[REQUEST_METHOD] == 'POST') {
@@ -121,7 +128,9 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
 
   $required = ['name', 'project', 'date'];
   $rules = ['date'];
+
   $errors = 0;
+
   $errorClass = 'form__input--error';
   $errorEmpty = '<span class="form__error">Заполните это поле</span>';
   $errorFormat = '<span class="form__error">Неверный формат даты</span>';
@@ -150,6 +159,7 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
     $file_path = __DIR__.'/';
     move_uploaded_file($_FILES['preview']['tmp_name'], $file_path.$file_name);
   }
+
   if (!$errors) {
 
     $taskNew = [
@@ -159,12 +169,9 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
     'done' => 'Нет'
     ];
 
-
     $taskNew = check_deadline($taskNew);
     array_unshift($taskArrNew, $taskNew);
-
   }
-
 }
 
 
@@ -211,7 +218,8 @@ $layoutContentArr = [
   'projectGet' => $projectGet,
   'addGet' => $addGet,
   'overlay' => $overlay,
-  'formContent' => $formContent
+  'formContent' => $formContent,
+  'usersName' => $usersName
 ];
 // подключаем разметку
 $layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);
@@ -219,13 +227,78 @@ $layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);
 // отображаем разметку
 print($layoutContent);
 
+} else {
+
+
+  if ($_SERVER[REQUEST_METHOD] == 'POST') {
+
+    $errorClass = 'form__input--error';
+    $errorEmpty = '<span class="form__error">Заполните это поле</span>';
+
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $guestError = 0;
+
+    if ($email == '') {
+      $errorEmail = $errorClass;
+      $errorTextEmail = $errorEmpty;
+      $guestError = 1;
+    }
+    if ($password == '') {
+      $errorPassword = $errorClass;
+      $errorTextPassword = $errorEmpty;
+      $guestError = 1;
+    }
+
+    if (!$guestError) {
+      if ($user = searchUserByEmail($email, $users)) {
+        if (password_verify($password, $user['password'])) {
+          $_SESSION['user'] = $user;
+          header("Location: /index.php");
+        } else {
+          $errorBadPassword = '<span>Вы ввели неверный пароль</span>';
+          $guestError = 1;
+        }
+      } else {
+        $guestError = 1;
+        $errorBadEmail = '<span>Такой пользователь не найден</span>';
+      }
+    }
+
+  }
+
+  $hidden = 'hidden';
+
+  // проверяем параметр запроса -login- и ошибки
+  if (isset($loginGet) || ($guestError)) {
+    $guestOverlay = 'overlay';
+    $hidden = '';
+  }
+
+  $guestContentArr = [
+    'guestOverlay' => $guestOverlay,
+    'hidden' => $hidden,
+    'errorEmail' => $errorEmail,
+    'errorTextEmail' => $errorTextEmail,
+    'errorPassword' => $errorPassword,
+    'errorTextPassword' => $errorTextPassword,
+    'errorBadPassword' => $errorBadPassword,
+    'errorBadEmail' => $errorBadEmail,
+    'email' => $email
+  ];
+
+  $guestContent = includeTemplate('templates/guest.php', $guestContentArr);
+
+  $layoutContentArr = [
+    'guestContent' => $guestContent
+  ];
+
+  $layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);
+
+  print($layoutContent);
+
+}
+
 
 
 ?>
-
-
-
-
-
-
-
