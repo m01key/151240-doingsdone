@@ -87,20 +87,20 @@
       <div class="form__row">
         <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-        <input class="form__input <?= $errorEmail ?>" type="text" name="email" id="email" value="<?= $email ?>" placeholder="Введите e-mail">
+        <input class="form__input <?php if (in_array('email', $errorsss) || in_array('emailBad', $errorsss)) print($errorClass) ?>" type="text" name="email" id="email" value="<?= $email ?>" placeholder="Введите e-mail">
 
-        <?= $errorTextEmail ?>
-        <?= $errorBadEmail ?>
+      <?php if (in_array('email', $errorsss)) print($errorEmpty) ?>
+      <?php if (in_array('emailBad', $errorsss)) print($errorBadEmail) ?>
 
       </div>
 
       <div class="form__row">
         <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
-        <input class="form__input <?= $errorPassword ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+        <input class="form__input <?php if (in_array('password', $errorsss) || in_array('passwordBad', $errorsss)) print($errorClass) ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
 
-        <?= $errorTextPassword ?>
-        <?= $errorBadPassword ?>
+      <?php if (in_array('password', $errorsss)) print($errorEmpty) ?>
+      <?php if (in_array('passwordBad', $errorsss)) print($errorBadPassword) ?>
 
       </div>
 
@@ -112,7 +112,7 @@
       </div>
 
       <div class="form__row form__row--controls">
-        <input class="button" type="submit" name="" value="Войти">
+        <input class="button" type="submit" name="guestSubmit" value="Войти">
       </div>
     </form>
   </div>

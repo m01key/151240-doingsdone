@@ -30,15 +30,25 @@ function taskCount($taskAll, $projectName) {
 
 
 function searchUserByEmail($email, $users) {
-    $result = null;
+
     foreach ($users as $user) {
-        if ($user['email'] == $email) { $result = $user;
-        break;
+        if ($user['email'] == $email) {
+            return $user;
         }
     }
-    return $result;
+    return false;
 }
 
 
+function check_deadline($date) {
+
+    $current_ts = strtotime('now midnight');
+    $task_deadline_ts = strtotime($date['doneDate']);
+    $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
+    if ($days_until_deadline <= 1) {
+        $date['deadline'] = true;
+    }
+    return $date;
+}
 
 ?>

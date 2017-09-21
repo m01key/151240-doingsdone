@@ -9,15 +9,15 @@
     <div class="form__row">
       <label class="form__label" for="name">Название <sup>*</sup></label>
 
-      <input class="form__input <?= $errorTask ?>" type="text" name="name" id="name" value="<?= $task ?>" placeholder="Введите название">
+      <input class="form__input <?php if (in_array('name', $errorsss)) print($errorClass) ?>" type="text" name="name" id="name" value="<?= $task ?>" placeholder="Введите название">
 
-      <?= $errorTextTask ?>
+      <?php if (in_array('name', $errorsss)) print($errorEmpty) ?>
     </div>
 
     <div class="form__row">
       <label class="form__label" for="project">Проект <sup>*</sup></label>
 
-      <select class="form__input form__input--select <?= $errorProject ?>" name="project" id="project">
+      <select class="form__input form__input--select <?php if (in_array('project', $errorsss)) print($errorClass) ?>" name="project" id="project">
 
       <?php foreach ($projectArr as $key => $value) : ?>
       <?php  if ($key !== 0) : ?>
@@ -31,15 +31,16 @@
 
       </select>
 
-      <?= $errorTextProject ?>
+      <?php if (in_array('project', $errorsss)) print($errorEmpty) ?>
     </div>
 
     <div class="form__row">
       <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
 
-      <input class="form__input form__input--date <?= $errorDate ?>" type="text" name="date" id="date" value="<?= $date ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+      <input class="form__input form__input--date <?php if (in_array('date', $errorsss) || in_array('dateFormat', $errorsss)) print($errorClass) ?>" type="text" name="date" id="date" value="<?= $date ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
 
-      <?= $errorTextDate ?>
+      <?php if (in_array('date', $errorsss)) print($errorEmpty) ?>
+      <?php if (in_array('dateFormat', $errorsss)) print($errorFormat) ?>
 
     </div>
 
@@ -56,7 +57,7 @@
     </div>
 
     <div class="form__row form__row--controls">
-      <input class="button" type="submit" name="" value="Добавить">
+      <input class="button" type="submit" name="taskSubmit" value="Добавить">
     </div>
   </form>
 </div>

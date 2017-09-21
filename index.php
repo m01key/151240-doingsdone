@@ -58,29 +58,24 @@ $taskArr = [
   ]
 ];
 
-// текущее время
-function check_deadline($date) {
-
-    $current_ts = strtotime('now midnight');
-    $task_deadline_ts = strtotime($date['doneDate']);
-    $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
-    if ($days_until_deadline <= 1) {
-        $date['deadline'] = true;
-    }
-    return $date;
-}
-
-
+$errorClass = 'form__input--error';
+$errorEmpty = '<span class="form__error">Заполните это поле</span>';
+$errorsss = [];
 
 // новый массив задач
 $taskArrNew = [];
-// параметры запроса
+
+
+if (isset($_SESSION["user"])) {
+
+$usersName = $_SESSION["user"]['name'];
+
+// параметры запроса - переменные
 $projectGet = isset($_GET['project']) ? $_GET['project'] : NULL;
 $addGet = isset($_GET['add']) ? $_GET['add'] : NULL;
-$loginGet = isset($_GET['login']) ? $_GET['login'] : NULL;
 
 
-// проверяем параметр запроса -проджект-
+// проверяем параметр запроса -project-
 if (isset($projectGet)) {
   if (isset($projectArr[$projectGet])) {
     $category = $projectArr[$projectGet];
@@ -109,50 +104,39 @@ if ($show_complete_tasks == 0) {
   }
 }
 
-
+// проверка массива на дедлайн
 foreach ($taskArrNew as $key => $value) {
     $taskArrNew[$key] = check_deadline($value);
 }
 
-if (isset($_SESSION["user"])) {
-
-$usersName = $_SESSION["user"]['name'];
-
-// обрабатываем форму
+// обрабатываем форму по задачам
 if ($_SERVER[REQUEST_METHOD] == 'POST') {
+
+  $taskSubmit = isset($_POST['taskSubmit']) ? $_POST['taskSubmit'] : '';
+
+  if ($taskSubmit) {
 
   $task = isset($_POST['name']) ? $_POST['name'] : '';
   $project = isset($_POST['project']) ? $_POST['project'] : '';
   $date = isset($_POST['date']) ? $_POST['date'] : '';
   $file = isset($_POST['file']) ? $_POST['file'] : '';
+  $errorFormat = '<span class="form__error">Неверный формат даты</span>';
+
 
   $required = ['name', 'project', 'date'];
   $rules = ['date'];
 
-  $errors = 0;
-
-  $errorClass = 'form__input--error';
-  $errorEmpty = '<span class="form__error">Заполните это поле</span>';
-  $errorFormat = '<span class="form__error">Неверный формат даты</span>';
 
   if ($task == '') {
-    $errorTask = $errorClass;
-    $errorTextTask = $errorEmpty;
-    $errors = 1;
+    $errorsss[] = 'name';
   }
   if ($project == '') {
-    $errorProject = $errorClass;
-    $errorTextProject = $errorEmpty;
-    $errors = 1;
+    $errorsss[] = 'project';
   }
   if ($date == '') {
-    $errorDate = $errorClass;
-    $errorTextDate = $errorEmpty;
-    $errors = 1;
+    $errorsss[] = 'date';
   } else if (!strtotime($date)) {
-    $errorDate = $errorClass;
-    $errorTextDate = $errorFormat;
-    $errors = 1;
+    $errorsss[] = 'dateFormat';
   }
   if ($file) {
     $file_name = $_FILES['preview']['name'];
@@ -160,7 +144,7 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
     move_uploaded_file($_FILES['preview']['tmp_name'], $file_path.$file_name);
   }
 
-  if (!$errors) {
+  if (!count($errorsss)) {
 
     $taskNew = [
     'task' =>  $task,
@@ -172,6 +156,8 @@ if ($_SERVER[REQUEST_METHOD] == 'POST') {
     $taskNew = check_deadline($taskNew);
     array_unshift($taskArrNew, $taskNew);
   }
+
+  }
 }
 
 
@@ -181,18 +167,17 @@ $formContentArr = [
   'task' => $task,
   'project' => $project,
   'date' => $date,
-  'errorTask' => $errorTask,
-  'errorTextTask' => $errorTextTask,
-  'errorDate' => $errorDate,
-  'errorTextDate' => $errorTextDate,
-  'errorProject' => $errorProject,
-  'errorTextProject' => $errorTextProject,
-  'projectArr' => $projectArr
+  'projectArr' => $projectArr,
+  'errorsss' => $errorsss,
+  'errorClass' => $errorClass,
+  'errorEmpty' => $errorEmpty,
+  'errorFormat' => $errorFormat
+
 ];
 
 
 // проверям есть ли ошибки в форме или параметр запроса -эдд-
-if (($errors) || isset($addGet)) {
+if (count($errorsss) || isset($addGet)) {
   $overlay = 'class="overlay"';
   $formContent = includeTemplate('templates/form.php', $formContentArr);
 }
@@ -221,6 +206,7 @@ $layoutContentArr = [
   'formContent' => $formContent,
   'usersName' => $usersName
 ];
+
 // подключаем разметку
 $layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);
 
@@ -229,48 +215,50 @@ print($layoutContent);
 
 } else {
 
+  $loginGet = isset($_GET['login']) ? $_GET['login'] : NULL;
+
 
   if ($_SERVER[REQUEST_METHOD] == 'POST') {
 
-    $errorClass = 'form__input--error';
-    $errorEmpty = '<span class="form__error">Заполните это поле</span>';
+    $errorBadPassword = '<span>Вы ввели неверный пароль</span>';
+    $errorBadEmail = '<span>Такой пользователь не найден</span>';
 
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
-    $guestError = 0;
+    $guestSubmit = isset($_POST['guestSubmit']) ? $_POST['guestSubmit'] : '';
 
-    if ($email == '') {
-      $errorEmail = $errorClass;
-      $errorTextEmail = $errorEmpty;
-      $guestError = 1;
-    }
-    if ($password == '') {
-      $errorPassword = $errorClass;
-      $errorTextPassword = $errorEmpty;
-      $guestError = 1;
-    }
 
-    if (!$guestError) {
-      if ($user = searchUserByEmail($email, $users)) {
-        if (password_verify($password, $user['password'])) {
-          $_SESSION['user'] = $user;
-          header("Location: /index.php");
-        } else {
-          $errorBadPassword = '<span>Вы ввели неверный пароль</span>';
-          $guestError = 1;
-        }
-      } else {
-        $guestError = 1;
-        $errorBadEmail = '<span>Такой пользователь не найден</span>';
+    if ($guestSubmit) {
+
+      if ($email == '') {
+        $errorsss[] = 'email';
       }
+      if ($password == '') {
+        $errorsss[] = 'password';
+      }
+
+      if (!count($errorsss)) {
+        if ($user = searchUserByEmail($email, $users)) {
+          if (password_verify($password, $user['password'])) {
+            $_SESSION['user'] = $user;
+            header("Location: /index.php");
+          } else {
+            $errorsss[] = 'passwordBad';
+          }
+        } else {
+          $errorsss[] = 'emailBad';
+        }
+      }
+
     }
+
 
   }
 
   $hidden = 'hidden';
 
   // проверяем параметр запроса -login- и ошибки
-  if (isset($loginGet) || ($guestError)) {
+  if (isset($loginGet) || count($errorsss)) {
     $guestOverlay = 'overlay';
     $hidden = '';
   }
@@ -278,13 +266,12 @@ print($layoutContent);
   $guestContentArr = [
     'guestOverlay' => $guestOverlay,
     'hidden' => $hidden,
-    'errorEmail' => $errorEmail,
-    'errorTextEmail' => $errorTextEmail,
-    'errorPassword' => $errorPassword,
-    'errorTextPassword' => $errorTextPassword,
     'errorBadPassword' => $errorBadPassword,
     'errorBadEmail' => $errorBadEmail,
-    'email' => $email
+    'email' => $email,
+    'errorEmpty' => $errorEmpty,
+    'errorClass' => $errorClass,
+    'errorsss' => $errorsss
   ];
 
   $guestContent = includeTemplate('templates/guest.php', $guestContentArr);
@@ -295,6 +282,7 @@ print($layoutContent);
 
   $layoutContent = includeTemplate('templates/layout.php', $layoutContentArr);
 
+// отображаем разметку
   print($layoutContent);
 
 }
