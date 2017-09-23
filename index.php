@@ -102,7 +102,7 @@ if (isset($showCompletedGet)) {
 }
 
 if (isset($_COOKIE['showCompleted'])) {
-  print($_COOKIE['showCompleted']);
+  // print($_COOKIE['showCompleted']);
   if (($_COOKIE['showCompleted'] == 0)) {
     foreach ($taskArrNew as $key => $value) {
       if ($value['done'] == 'Да') {
