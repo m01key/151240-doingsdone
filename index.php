@@ -75,6 +75,7 @@ $usersName = $_SESSION["user"]['name'];
 $projectGet = isset($_GET['project']) ? $_GET['project'] : NULL;
 $addGet = isset($_GET['add']) ? $_GET['add'] : NULL;
 $showCompletedGet = isset($_GET['show_completed']) ? $_GET['show_completed'] : NULL;
+$show_complete_tasks = isset($_COOKIE['showCompleted']) ? $_COOKIE['showCompleted'] : NULL;
 
 
 // проверяем параметр запроса -project-
@@ -101,16 +102,8 @@ if (isset($showCompletedGet)) {
   header("Location: /index.php");
 }
 
-if (isset($_COOKIE['showCompleted'])) {
-  // print($_COOKIE['showCompleted']);
-  if (($_COOKIE['showCompleted'] == 0)) {
-    foreach ($taskArrNew as $key => $value) {
-      if ($value['done'] == 'Да') {
-        unset($taskArrNew[$key]);
-      }
-    }
-  }
-} else {
+
+if ($show_complete_tasks == 0 || $show_complete_tasks == NULL) {
   foreach ($taskArrNew as $key => $value) {
     if ($value['done'] == 'Да') {
       unset($taskArrNew[$key]);
