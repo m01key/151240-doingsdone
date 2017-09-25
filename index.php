@@ -8,7 +8,7 @@ require_once 'functions.php';
 
 // показывать или нет выполненные задачи
 // $show_complete_tasks = rand(0, 1);
-$show_complete_tasks = 0;
+// $show_complete_tasks = 0;
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');

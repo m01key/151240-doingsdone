@@ -32,7 +32,7 @@
 
   <label class="checkbox">
     <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-    <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" <?php if ($_COOKIE['showCompleted'] == 1) print('checked') ?> >
+    <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" <?php if ($show_complete_tasks == 1) print('checked') ?> >
     <span class="checkbox__text">Показывать выполненные</span>
   </label>
 </div>
