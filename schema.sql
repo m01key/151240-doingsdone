@@ -10,7 +10,9 @@ CREATE TABLE task (
   dateDone DATETIME,
   name TEXT,
   file TEXT,
-  dateLimit DATETIME
+  dateLimit DATETIME,
+  projectId TEXT,
+  usersId TEXT
 );
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,7 +20,9 @@ CREATE TABLE users (
   email CHAR,
   name CHAR,
   password CHAR(32),
-  contacts TEXT
+  contacts TEXT,
+  projectId TEXT,
+  taskId TEXT
 );
 CREATE UNIQUE INDEX id ON project(id);
 CREATE UNIQUE INDEX id ON task(id);
