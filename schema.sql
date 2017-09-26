@@ -2,7 +2,8 @@ CREATE DATABASE doingdone;
 USE doingdone;
 CREATE TABLE project (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name CHAR
+  name CHAR,
+  usersId TEXT
 );
 CREATE TABLE task (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -10,7 +11,9 @@ CREATE TABLE task (
   dateDone DATETIME,
   name TEXT,
   file TEXT,
-  dateLimit DATETIME
+  dateLimit DATETIME,
+  projectId TEXT,
+  usersId TEXT
 );
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
