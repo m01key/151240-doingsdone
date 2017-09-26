@@ -2,7 +2,8 @@ CREATE DATABASE doingdone;
 USE doingdone;
 CREATE TABLE project (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name CHAR
+  name CHAR,
+  usersId TEXT
 );
 CREATE TABLE task (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,9 +21,7 @@ CREATE TABLE users (
   email CHAR,
   name CHAR,
   password CHAR(32),
-  contacts TEXT,
-  projectId TEXT,
-  taskId TEXT
+  contacts TEXT
 );
 CREATE UNIQUE INDEX id ON project(id);
 CREATE UNIQUE INDEX id ON task(id);
