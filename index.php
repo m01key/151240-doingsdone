@@ -7,7 +7,8 @@ require_once 'functions.php';
 
 
 // показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+// $show_complete_tasks = rand(0, 1);
+// $show_complete_tasks = 0;
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
@@ -73,6 +74,8 @@ $usersName = $_SESSION["user"]['name'];
 // параметры запроса - переменные
 $projectGet = isset($_GET['project']) ? $_GET['project'] : NULL;
 $addGet = isset($_GET['add']) ? $_GET['add'] : NULL;
+$showCompletedGet = isset($_GET['show_completed']) ? $_GET['show_completed'] : NULL;
+$show_complete_tasks = isset($_COOKIE['showCompleted']) ? $_COOKIE['showCompleted'] : NULL;
 
 
 // проверяем параметр запроса -project-
@@ -94,15 +97,20 @@ if (isset($projectGet)) {
 }
 
 
+if (isset($showCompletedGet)) {
+  setcookie('showCompleted', $showCompletedGet);
+  header("Location: /index.php");
+}
 
-// показываем или нет выполненные задачи
-if ($show_complete_tasks == 0) {
+
+if ($show_complete_tasks == 0 || $show_complete_tasks == NULL) {
   foreach ($taskArrNew as $key => $value) {
     if ($value['done'] == 'Да') {
       unset($taskArrNew[$key]);
     }
   }
 }
+
 
 // проверка массива на дедлайн
 foreach ($taskArrNew as $key => $value) {
